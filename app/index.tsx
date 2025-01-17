@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, ImageBackground, Dimensions, Animated } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { MonoText } from '@/components/StyledText';
 
 import background from '../assets/images/travel-1.jpg';
 
@@ -11,14 +12,14 @@ export default function Signin() {
 
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
-      toValue: 0.95, // Scale down
+      toValue: 0.95,
       useNativeDriver: true,
     }).start();
   };
 
   const handlePressOut = () => {
     Animated.spring(scaleAnim, {
-      toValue: 1, // Scale back to normal
+      toValue: 1,
       useNativeDriver: true,
     }).start();
   };
@@ -26,6 +27,11 @@ export default function Signin() {
   const handlePress = () => {
     router.push('/home');
   };
+
+  const routeLogin = () => {
+    router.push('/login');
+  }
+
 
   return (
     <ImageBackground source={background} style={styles.container}>
@@ -35,11 +41,11 @@ export default function Signin() {
       <View >
         <View style={styles.skipflex}>
           <Pressable style={styles.skip}>
-            <Text style={styles.skipText}>Skip</Text>
+            <MonoText style={styles.skipText}>Skip</MonoText>
           </Pressable>
         </View>
         <Text style={styles.title}>Explore Indonesia With Us</Text>
-        <Text style={styles.subtitle}>We Travelin' are ready to help you on your trip around Indonesia</Text>
+        <MonoText style={styles.subtitle}>We Travelin' are ready to help you on your trip around Indonesia</MonoText>
 
         {/* <Pressable style={styles.button} onPress={handlePress}>
           <Text style={styles.buttonText}>Go to home</Text>
@@ -52,19 +58,19 @@ export default function Signin() {
           <Pressable
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
-            // onPress={() => console.log('Button Pressed')}
+            // onPress={routeLogin}
             style={styles.pressableContent}
           >
-            <Text style={styles.boxTitle}>Let's Get Started</Text>
+            <MonoText style={styles.boxTitle}>Let's Get Started</MonoText>
             <AntDesign name="arrowright" size={20} color="white" />
           </Pressable>
         </Animated.View>
         
-        <Pressable onPress={handlePress}>
-          <Text style={styles.boxText}>
+        <Pressable>
+          <MonoText style={styles.boxText}>
             Already have an account?{' '}
-            <Text style={styles.boxLink}>Login</Text>
-          </Text>
+            <Text style={styles.boxLink} onPress={routeLogin}>Login</Text>
+          </MonoText>
         </Pressable>
       </View>
     </ImageBackground>
@@ -80,13 +86,14 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
   title: {
-    fontSize: 74,
+    fontSize: 65,
     fontWeight: 'medium',
     color: '#fff',
     marginTop: 50,
+    fontFamily: 'SpaceMono',
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#fff',
     marginTop: 14,
   },
@@ -105,8 +112,7 @@ const styles = StyleSheet.create({
   },
   skipText: {
     color: '#FFFFFF', // Text color for contrast
-    fontSize: 14, // Font size for better visibility
-    fontWeight: 'bold', // Bold text
+    fontSize: 12, // Font size for better visibility
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -129,7 +135,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',              // Text color
-    fontSize: 16,               // Font size
+    fontSize: 14,               // Font size
     fontWeight: 'bold',         // Bold text
   },
   bottomBox: {
@@ -144,18 +150,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   boxTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'semibold',
     color: '#fff',
-    marginRight: 5,
+    marginRight: 12,
   },
   boxLink: {
-    fontSize: 16,
-    color: '#007BFF',
+    fontSize: 14,
+    color: '#920fcc',
     fontWeight: '500',
   },
   boxText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#000',
   },
   startButton: {

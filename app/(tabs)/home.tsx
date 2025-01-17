@@ -1,8 +1,11 @@
-import { StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, TouchableOpacity, Pressable, Image } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
-import { Link, useRouter } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { MonoText } from '@/components/StyledText';
+
+import hero from '../../assets/images/travel-3.jpg';
 
 export default function TabOneScreen() {
   const router = useRouter();
@@ -13,13 +16,59 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} />
-      {/* <EditScreenInfo path="app/(tabs)/home.tsx" /> */}
+      {/* <Stack.Screen options={{ headerTitle: "" }} /> */}
+      
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', backgroundColor: '#eee' }}>
+        <MonoText style={{fontSize: 15 }}>Popular places</MonoText>
 
-      <Pressable style={styles.button} onPress={handlePress}>
+        <MonoText style={{fontSize: 12, color: 'blue', textDecorationLine: 'underline'}}>See more</MonoText>
+      </View>
+
+      <View style={{ backgroundColor: '#eee', position: 'relative' }}>
+        <Image
+          source={hero}
+          style={{
+            width: '100%',
+            height: 200,
+            marginTop: 20,
+            borderRadius: 12,
+          }}
+        />
+
+        <View
+          style={{
+            position: 'absolute',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Use "rgba" for transparency
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: 10,
+            zIndex: 10,
+            borderBottomLeftRadius: 12, // Match the image's border radius
+            borderBottomRightRadius: 12, // Match the image's border radius
+          }}
+        >
+          <MonoText style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>
+            Venice, Italy
+          </MonoText>
+          <MonoText style={{ color: 'white', fontSize: 14, marginTop: 5 }}>
+            4.7<AntDesign name="star" size={16} color="yellow" /> (3245)
+          </MonoText>
+        </View>
+      </View>
+
+      <View style={{ marginTop: 25 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', backgroundColor: '#eee' }}>
+          <MonoText style={{ fontSize: 15 }}>Recommendations for you</MonoText>
+
+          <MonoText style={{ fontSize: 12, color: 'blue', textDecorationLine: 'underline' }}>See more</MonoText>
+        </View>
+      </View>
+
+
+      {/* <Pressable style={styles.button} onPress={handlePress}>
         <Text style={styles.buttonText}>Go to sign in</Text>
-      </Pressable>
+      </Pressable> */}
       
     </View>
   );
@@ -28,7 +77,8 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+    padding: 20,
+    backgroundColor: '#eee',
     // alignItems: 'center',
     // justifyContent: 'center',
   },
