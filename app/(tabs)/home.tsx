@@ -13,6 +13,9 @@ export default function TabOneScreen() {
   const handlePress = () => {
     router.push('/');
   };
+  const routeProducts = () => {
+    router.push('/products');
+  };
 
   return (
     <View style={styles.container}>
@@ -66,9 +69,9 @@ export default function TabOneScreen() {
       </View>
 
 
-      {/* <Pressable style={styles.button} onPress={handlePress}>
-        <Text style={styles.buttonText}>Go to sign in</Text>
-      </Pressable> */}
+      <Pressable style={styles.button} onPress={routeProducts}>
+        <Text style={styles.buttonText}>Go to products</Text>
+      </Pressable>
       
     </View>
   );

@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, ImageBackground, Dimensions, Animated } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { MonoText } from '@/components/StyledText';
+import { PoppinsText } from '@/components/StyledText';
+import Indicator from '@/components/Indicator';
 
 import background from '../assets/images/travel-1.jpg';
 
@@ -31,6 +32,9 @@ export default function Signin() {
   const routeLogin = () => {
     router.push('/login');
   }
+  const route2 = () => {
+    router.push('/onboard-two');
+  }
 
 
   return (
@@ -40,12 +44,12 @@ export default function Signin() {
 
       <View >
         <View style={styles.skipflex}>
-          <Pressable style={styles.skip}>
-            <MonoText style={styles.skipText}>Skip</MonoText>
+          <Pressable style={styles.skip} onPress={routeLogin}>
+            <PoppinsText style={styles.skipText}>Skip</PoppinsText>
           </Pressable>
         </View>
-        <Text style={styles.title}>Explore Indonesia With Us</Text>
-        <MonoText style={styles.subtitle}>We Travelin' are ready to help you on your trip around Indonesia</MonoText>
+        <PoppinsText style={styles.title}>Explore Indonesia With Us</PoppinsText>
+        <PoppinsText style={styles.subtitle}>We Travelin' are ready to help you on your trip around Indonesia</PoppinsText>
 
         {/* <Pressable style={styles.button} onPress={handlePress}>
           <Text style={styles.buttonText}>Go to home</Text>
@@ -54,24 +58,29 @@ export default function Signin() {
 
       {/* White Box */}
       <View style={styles.bottomBox}>
-        <Animated.View style={[styles.startButton, { transform: [{ scale: scaleAnim }] }]}>
-          <Pressable
-            onPressIn={handlePressIn}
-            onPressOut={handlePressOut}
-            // onPress={routeLogin}
-            style={styles.pressableContent}
-          >
-            <MonoText style={styles.boxTitle}>Let's Get Started</MonoText>
-            <AntDesign name="arrowright" size={20} color="white" />
+        <View style={{flexDirection: 'row', justifyContent: "center", paddingBottom: 20}}>
+          <Indicator page={1} />
+        </View>
+        <View style={styles.whiteBox}>
+          <Animated.View style={[styles.startButton, { transform: [{ scale: scaleAnim }] }]}>
+            <Pressable
+              onPressIn={handlePressIn}
+              onPressOut={handlePressOut}
+              onPress={route2}
+              style={styles.pressableContent}
+            >
+              <PoppinsText style={styles.boxTitle}>Proceed</PoppinsText>
+              <AntDesign name="arrowright" size={20} color="white" />
+            </Pressable>
+          </Animated.View>
+
+          <Pressable>
+            <PoppinsText style={styles.boxText}>
+              Already have an account?{' '}
+              <Text style={styles.boxLink} onPress={routeLogin}>Login</Text>
+            </PoppinsText>
           </Pressable>
-        </Animated.View>
-        
-        <Pressable>
-          <MonoText style={styles.boxText}>
-            Already have an account?{' '}
-            <Text style={styles.boxLink} onPress={routeLogin}>Login</Text>
-          </MonoText>
-        </Pressable>
+        </View>
       </View>
     </ImageBackground>
   )
@@ -90,7 +99,6 @@ const styles = StyleSheet.create({
     fontWeight: 'medium',
     color: '#fff',
     marginTop: 50,
-    fontFamily: 'SpaceMono',
   },
   subtitle: {
     fontSize: 16,
@@ -142,6 +150,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: Dimensions.get('window').width,
+  },
+  whiteBox: {
     backgroundColor: '#FFF',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

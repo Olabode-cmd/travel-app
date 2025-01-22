@@ -4,27 +4,42 @@ import { useState } from "react";
 import { MonoText } from "@/components/StyledText";
 import Google from '../assets/images/google.png';
 
-
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const router = useRouter();
 
-    const handleLogin = () => {
-        if (!email || !password) {
-            Alert.alert('Error', 'Please fill in both fields.');
-            return;
-        }
+    const handleLogin = async () => {
+        // Prepare the data to be sent to the server
+        const requestData = {
+            email,
+            password,
+        };
 
-        // Basic email format validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            Alert.alert('Error', 'Please enter a valid email.');
-            return;
-        }
+        console.log('Data to be sent:', requestData);
 
-        Alert.alert('Success', `Logged in with ${email}`);
+        // Dummy API URL
+        const apiUrl = 'dummy.api.endpoint/login';
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            });
+
+            const responseData = await response.json();
+            console.log('Server Response:', responseData);
+
+            // Show success message
+            Alert.alert('Success', 'Logged in successfully!');
+        } catch (error) {
+            console.error('Error during login:', error);
+            Alert.alert('Error', 'Something went wrong. Please try again.');
+        }
     };
 
     const goHome = () => {
@@ -63,7 +78,10 @@ export default function Login() {
                     />
                 </View>
 
-                <Pressable style={styles.button} onPress={goHome}>
+                <Pressable style={styles.button}
+                 onPress={goHome}
+                //  onPress={handleLogin}
+                 >
                     <MonoText style={styles.buttonText}>Login</MonoText>
                 </Pressable>
 

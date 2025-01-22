@@ -24,6 +24,12 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    ProximaNova: require('../assets/fonts/ProximaNova-Regular.otf'),
+    ProximaNovaBold: require('../assets/fonts/ProximaNova-Bold.otf'),
+    ProximaNovaSemibold: require('../assets/fonts/ProximaNova-Semibold.otf'),
+    Poppins: require('../assets/fonts/Poppins-Regular.ttf'),
+    PoppinsMedium: require('../assets/fonts/Poppins-Medium.ttf'),
+    PoppinsSemibold: require('../assets/fonts/Poppins-SemiBold.ttf'),
     ...FontAwesome.font,
   });
 
