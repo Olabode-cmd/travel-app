@@ -32,11 +32,25 @@ const ProductsPage: React.FC = () => {
         }
     };
 
+    const deleteProduct = async () => {
+        try{
+            const response = await fetch('XXXXXXXXXXXXXXXXXXXXX/id', {
+                method: 'DELETE',
+            });
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const handleAddToCart = (product: Product) => {
         console.log('Added to cart:', product.title);
     };
 
-    
+    const consoleData = () => {
+        console.log(products);
+    };
 
     if (loading) {
         return (
@@ -48,9 +62,9 @@ const ProductsPage: React.FC = () => {
 
     return (
         <View>
-            {/* <Pressable onPress={consoleData}>
+            <Pressable onPress={consoleData}>
                 <Text>Console data</Text>
-            </Pressable> */}
+            </Pressable>
             <FlatList
                 data={products}
                 keyExtractor={(item) => item.id.toString()}

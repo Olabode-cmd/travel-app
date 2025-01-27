@@ -10,7 +10,9 @@ export default function Login() {
 
     const router = useRouter();
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        
         // Prepare the data to be sent to the server
         const requestData = {
             email,
@@ -45,6 +47,9 @@ export default function Login() {
     const goHome = () => {
         router.push('/home');
     };
+    const routeToTwo = () => {
+        router.push('/logintwo');
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -80,6 +85,7 @@ export default function Login() {
 
                 <Pressable style={styles.button}
                  onPress={goHome}
+                //  onPress={routeToTwo}
                 //  onPress={handleLogin}
                  >
                     <MonoText style={styles.buttonText}>Login</MonoText>
