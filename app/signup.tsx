@@ -1,31 +1,34 @@
-import { View, Pressable, SafeAreaView, StyleSheet, Alert, TextInput, Image } from "react-native";
+import { View, Pressable, SafeAreaView, StyleSheet, Alert, TextInput, Image, ScrollView, ActivityIndicator } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import { MonoText } from "@/components/StyledText";
 import Google from '../assets/images/google.png';
 
-// API endpoint = https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/
-// email phone_number username password
-
-export default function Login() {
+const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [username, setUsername] = useState('');
+
+    const [loading, setLoading] = useState(false)
 
     const router = useRouter();
 
-    const handleLogin = async (e) => {
+    const handleSignup = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        
-        // Prepare the data to be sent to the server
+        setLoading(true);
+
         const requestData = {
-            email,
-            password,
+            email: email,
+            password: password,
+            phone_number: phoneNumber,
+            username: username
         };
 
         // console.log('Data to be sent:', requestData);
 
         // Dummy API URL
-        const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/login/';
+        const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/v1/register/';
 
         try {
             const response = await fetch(apiUrl, {
@@ -39,31 +42,30 @@ export default function Login() {
             const responseData = await response.json();
             console.log('Server Response:', responseData);
 
-            // Show success message
-            Alert.alert('Success', 'Logged in successfully!');
-            console.log('Success', 'Logged in successfully!');
+            if (responseData.status === 200) {
+                Alert.alert('Registration successful')
+                console.log('Registration successful')
+            }
         } catch (error) {
             console.error('Error during login:', error);
             Alert.alert('Error', 'Something went wrong. Please try again.');
+        } finally {
+            setLoading(false)
         }
-    };
-
-    const goHome = () => {
-        router.push('/home');
-    };
-    const routeToSignup = () => {
-        router.push('/signup');
     }
 
+    const routeToLogin = () => {
+        router.push('/login');
+    }
     return (
-        <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.container}>
             <Stack.Screen options={{ headerShown: false }} />
-            <MonoText style={styles.title}>Login page</MonoText>
+            <MonoText style={styles.title}>Create Account</MonoText>
 
             <MonoText style={styles.boxText}>
-                Don't have an account?{' '}
-                <Pressable onPress={routeToSignup}>
-                    <MonoText style={styles.boxLink}>Create one</MonoText>
+                Already have an account?{' '}
+                <Pressable onPress={routeToLogin}>
+                    <MonoText style={styles.boxLink}>Login</MonoText>
                 </Pressable>
             </MonoText>
 
@@ -76,6 +78,29 @@ export default function Login() {
                         autoCapitalize="none"
                         value={email}
                         onChangeText={(text) => setEmail(text)}
+                        inputMode="email"
+                    />
+                </View>
+
+                <View>
+                    <MonoText style={styles.label}>Enter your phone number</MonoText>
+                    <TextInput
+                        style={styles.input}
+                        // secureTextEntry={true}
+                        value={phoneNumber}
+                        onChangeText={(text) => setPhoneNumber(text)}
+                        inputMode="text"
+                    />
+                </View>
+
+                <View>
+                    <MonoText style={styles.label}>Choose a username</MonoText>
+                    <TextInput
+                        style={styles.input}
+                        // secureTextEntry={true}
+                        value={username}
+                        onChangeText={(text) => setUsername(text)}
+                        inputMode="text"
                     />
                 </View>
 
@@ -86,13 +111,16 @@ export default function Login() {
                         secureTextEntry={true}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
+                        inputMode="text"
                     />
                 </View>
 
                 <Pressable style={styles.button}
-                 onPress={handleLogin}
-                 >
-                    <MonoText style={styles.buttonText}>Login</MonoText>
+                    onPress={handleSignup}
+                >
+                    <MonoText style={styles.buttonText}>
+                        {loading ? <ActivityIndicator /> : "Create account"}
+                    </MonoText>
                 </Pressable>
 
                 <View style={styles.moreContainer}>
@@ -129,9 +157,11 @@ export default function Login() {
                     <MonoText style={styles.bottomText}>Lorem ipsum dolor sit amet Sequi recusandae aspernatur aperiam porro sit.</MonoText>
                 </View>
             </View>
-        </SafeAreaView>
+        </ScrollView>
     )
-};
+}
+
+export default SignUp;
 
 const styles = StyleSheet.create({
     container: {

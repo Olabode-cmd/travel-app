@@ -1,0 +1,63 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Function to save token after successful login
+const saveToken = async (token) => {
+  try {
+    await AsyncStorage.setItem('@token', token);
+    console.log('Token saved successfully');
+  } catch (error) {
+    console.log('Error saving token:', error);
+  }
+};
+
+// Function to get token (use this when app starts or when needed)
+const getToken = async () => {
+  try {
+    const token = await AsyncStorage.getItem('@token');
+    return token;
+  } catch (error) {
+    console.log('Error getting token:', error);
+    return null;
+  }
+};
+
+// Function to remove token (use this for logout)
+const removeToken = async () => {
+  try {
+    await AsyncStorage.removeItem('@token');
+    console.log('Token removed successfully');
+  } catch (error) {
+    console.log('Error removing token:', error);
+  }
+};
+
+// Example usage in login function
+const handleLogin = async () => {
+  try {
+    // Your login API call
+    const response = await fetch('https://api.example.com/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: 'user@example.com',
+        password: 'password'
+      })
+    });
+
+    const data = await response.json();
+    
+    if (data.token) {
+      // Save the token
+      await saveToken(data.token);
+      // Navigate to home screen or update state
+    }
+  } catch (error) {
+    console.log('Login error:', error);
+  }
+};
+
+
+<form action="">
+</form>

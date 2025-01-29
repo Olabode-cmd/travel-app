@@ -3,6 +3,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { PoppinsText } from '@/components/StyledText';
 import { useState, useEffect } from 'react'
+import { useRouter } from 'expo-router';
 
 import CartCard from '@/components/CartCard';
 
@@ -15,16 +16,24 @@ interface Product {
     thumbnail: string;
 }
 
-const Header = () => (
-    <View style={styles.header}>
-        <TouchableOpacity
-            style={styles.backButton}
-        >
-            <AntDesign name="arrowleft" size={18} color="black" />
-        </TouchableOpacity>
-        <PoppinsText style={styles.title}>Cart</PoppinsText>
-    </View>
-);
+const Header = () => {
+    const router = useRouter();
+
+    const goBack = () => {
+        router.back();
+    }
+    return (
+        <View style={styles.header}>
+            <TouchableOpacity
+                style={styles.backButton}
+                onPress={goBack}
+            >
+                <AntDesign name="arrowleft" size={18} color="black" />
+            </TouchableOpacity>
+            <PoppinsText style={styles.title}>Cart</PoppinsText>
+        </View>
+    )
+};
 
 const Cart = () => {
     const [products, setProducts] = useState('<Product[]>([])');
@@ -92,7 +101,7 @@ const Cart = () => {
                                         title={product.title}
                                         price={product.price}
                                         description={product.description}
-                                        id={0} rating={0} thumbnail={product.thumbnail}                                        // thumbnail={product.thumbnail}
+                                        id={0} rating={product.rating} thumbnail={product.thumbnail}                                        // thumbnail={product.thumbnail}
                                     />
                                 ))}
                             </View>

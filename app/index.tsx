@@ -24,11 +24,9 @@ export default function Signin() {
       useNativeDriver: true,
     }).start();
   };
-
   const handlePress = () => {
     router.push('/home');
   };
-
   const routeLogin = () => {
     router.push('/login');
   }

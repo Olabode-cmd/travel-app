@@ -21,7 +21,7 @@ const CartCard = (product: Product) => {
     };
 
     const renderStars = (rating: number) => {
-        return [...Array(5)].map((_, index) => (
+        return [...Array(5)].map((element , index) => (
             <AntDesign
                 key={index}
                 name={index < rating ? "star" : "staro"}
@@ -66,7 +66,7 @@ const CartCard = (product: Product) => {
 
                 <View style={styles.ratingContainer}>
                     <View style={styles.stars}>
-                        {renderStars(4)}
+                        {renderStars(product.rating)}
                     </View>
                     <PoppinsText style={styles.reviews}>
                         (12 reviews)
