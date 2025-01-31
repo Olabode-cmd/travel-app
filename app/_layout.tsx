@@ -131,7 +131,7 @@ function RootLayoutNav({ isAuthenticated }: RootLayoutNavProps): JSX.Element {
     <ThemeProvider value={DefaultTheme}>
       {isAuthenticated ? (
         <>
-          <Stack>
+          <Stack options={{ headerShown: false}}>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           </Stack>
@@ -141,16 +141,6 @@ function RootLayoutNav({ isAuthenticated }: RootLayoutNavProps): JSX.Element {
           <Stack.Screen name="login" options={{ headerShown: false }} />
         </Stack>
       )}
-      {/* <Stack>
-        {isAuthenticated ? (
-          <>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </>
-        ) : (
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-        )}
-      </Stack> */}
     </ThemeProvider>
   );
 }

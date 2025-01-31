@@ -10,6 +10,7 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [username, setUsername] = useState('');
+    const [role, setRole] = useState('');
 
     const [loading, setLoading] = useState(false)
 
@@ -23,13 +24,15 @@ const SignUp = () => {
             email: email,
             password: password,
             phone_number: phoneNumber,
-            username: username
+            username: username,
+            role: role,
         };
 
         // console.log('Data to be sent:', requestData);
 
         // Dummy API URL
-        const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/v1/register/';
+        const apiUrl = 'https://api.digitalfortressltd.com/user/v1/register/';
+        // const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/v1/register/';
 
         try {
             const response = await fetch(apiUrl, {
@@ -48,7 +51,7 @@ const SignUp = () => {
                 await AsyncStorage.setItem('accessToken', data.access);
                 Alert.alert('Registration successful')
                 console.log('Registration successful')
-                router.push('/home')
+                router.push('/default')
             }
         } catch (error) {
             console.error('Error during login:', error);
@@ -104,6 +107,17 @@ const SignUp = () => {
                         // secureTextEntry={true}
                         value={username}
                         onChangeText={(text) => setUsername(text)}
+                        inputMode="text"
+                    />
+                </View>
+
+                <View>
+                    <MonoText style={styles.label}>Role</MonoText>
+                    <TextInput
+                        style={styles.input}
+                        // secureTextEntry={true}
+                        value={role}
+                        onChangeText={(text) => setRole(text)}
                         inputMode="text"
                     />
                 </View>

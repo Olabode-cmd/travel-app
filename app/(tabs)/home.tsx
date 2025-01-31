@@ -62,60 +62,7 @@ export default function TabOneScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      {/* <Stack.Screen options={{ headerShown: false}} /> */}
-      {/* <Stack.Screen options={{ headerTitle: "" }} /> */}
-
-      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', backgroundColor: '#eee' }}>
-        <MonoText style={{ fontSize: 15 }}>Popular places</MonoText>
-
-        <MonoText style={{ fontSize: 12, color: 'blue', textDecorationLine: 'underline' }}>See more</MonoText>
-      </View>
-
-      <View style={{ backgroundColor: '#eee', position: 'relative' }}>
-        <Image
-          source={hero}
-          style={{
-            width: '100%',
-            height: 200,
-            marginTop: 20,
-            borderRadius: 12,
-          }}
-        />
-
-        <View
-          style={{
-            position: 'absolute',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Use "rgba" for transparency
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: 10,
-            zIndex: 10,
-            borderBottomLeftRadius: 12, // Match the image's border radius
-            borderBottomRightRadius: 12, // Match the image's border radius
-          }}
-        >
-          <MonoText style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>
-            Venice, Italy
-          </MonoText>
-          <MonoText style={{ color: 'white', fontSize: 14, marginTop: 5 }}>
-            4.7<AntDesign name="star" size={16} color="yellow" /> (3245)
-          </MonoText>
-        </View>
-      </View>
-
-      <View style={{ marginTop: 25 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', backgroundColor: '#eee' }}>
-          <MonoText style={{ fontSize: 15 }}>Recommendations for you</MonoText>
-
-          <MonoText style={{ fontSize: 12, color: 'blue', textDecorationLine: 'underline' }}>See more</MonoText>
-        </View>
-      </View>
-
-
-      <Pressable style={styles.button} onPress={routeProducts}>
-        <Text style={styles.buttonText}>Go to products</Text>
-      </Pressable> */}
+      
 
       {/* Picker tests */}
 

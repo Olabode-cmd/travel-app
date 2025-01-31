@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { MonoText } from "@/components/StyledText";
 import Google from '../assets/images/google.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AntDesign from "@expo/vector-icons/AntDesign";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 // API endpoint = https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/
 // email phone_number username password
@@ -13,6 +15,12 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [token, setToken] = useState<string | null>(null);
+
+    const [visible, setVisible] = useState(false);
+
+    const toggleVisibility = () => {
+        setVisible(!visible);
+    }
 
     const router = useRouter();
 
@@ -32,7 +40,14 @@ export default function Login() {
     }, [token, router]);
     
 
-    const handleLogin = async (e: { preventDefault: () => void; }) => {
+    const handleLogin = async (e) => {
+        // const logout = async () => {
+        //     await AsyncStorage.removeItem('accessToken');
+        //     console.log('Logged out')
+        // }
+
+        // logout();
+
         e.preventDefault();
         if (!email || !password) {
             Alert.alert('Error', 'Please fill in all fields');
@@ -46,12 +61,11 @@ export default function Login() {
             Alert.alert('Error', 'Password must be at least 8 characters long');
             return;
         }
-        
+
         setLoading(true);
         
-        // Prepare the data to be sent to the server
         try {
-            const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/login/';
+            const apiUrl = 'https://api.digitalfortressltd.com/user/login/';
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -69,7 +83,7 @@ export default function Login() {
                 Alert.alert('Success', 'Logged in successfully!');
                 console.log('Success', 'Logged in successfully!');
                 router.push('/home')
-                return { success: true, token: data.accessToken };
+                return { success: true, token: data.access };
             } else {
                 Alert.alert('Error', data.message || 'Login failed');
                 return { success: false, message: data.message || 'Login failed' };
@@ -82,6 +96,32 @@ export default function Login() {
             setLoading(false);
         }
     };
+
+    const login = async (e) => {
+        e.preventDefault();
+
+        try {
+            const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/login/';
+
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                body: JSON.stringify({ email, password }),
+            })
+
+            const data = await response.json();
+            console.log('Server Response:', data);
+
+            if(response.ok) {
+                Alert.alert('Login successful')
+                router.push('/default')
+            }
+        } catch (error) {
+            // setError(error);
+            console.error('Error during login:', error);
+        } finally {
+            setLoading(false)
+        }
+    }
 
     const goHome = () => {
         router.push('/home');
@@ -114,19 +154,26 @@ export default function Login() {
                     />
                 </View>
 
-                <View>
+                <View style={{position: 'relative'}}>
                     <MonoText style={styles.label}>Enter your password</MonoText>
                     <TextInput
                         style={styles.input}
-                        secureTextEntry={true}
+                        secureTextEntry={visible ? false : true}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                     />
+
+                    <FontAwesome 
+                        // name='eye' 
+                        name={visible ? 'eye' : 'eye-slash'} 
+                        color={"#333"} 
+                        size={16} 
+                        style={{position: 'absolute', top: '45%', right: '4%'}} 
+                        onPress={toggleVisibility}
+                    />
                 </View>
 
-                <Pressable style={styles.button}
-                 onPress={handleLogin}
-                 >
+                <Pressable style={styles.button} onPress={handleLogin}>
                     <MonoText style={styles.buttonText}>{loading ? <ActivityIndicator /> : "Login"}</MonoText>
                 </Pressable>
 

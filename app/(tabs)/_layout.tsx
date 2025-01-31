@@ -5,14 +5,21 @@ import { MonoText, PoppinsText } from '@/components/StyledText';
 
 import Colors from '@/constants/Colors';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+}
+
+function AntIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>['name'];
+  color: string;
+}) {
+  return <AntDesign size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
@@ -28,16 +35,14 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
-        name="home"
+        name="default"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Home',
+          tabBarIcon: ({ color }) => <AntIcon name="home" color={color} />,
           headerTitle: '',
           headerLeft:() => (
             <View style={styles.left}>
-              <FontAwesome name="dot-circle-o" size={18} color="black" />
-              <MonoText>Portugal</MonoText>
-              <Entypo name="chevron-small-down" size={24} color="black" />
+              <PoppinsText style={{}}>Discover</PoppinsText>
             </View>
           ),
           headerRight: () => (
