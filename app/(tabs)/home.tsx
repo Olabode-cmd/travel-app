@@ -54,14 +54,15 @@ export default function TabOneScreen() {
 
   useEffect(() => {
     Animated.timing(opacity, {
-      toValue: 1, // Target opacity
-      duration: 2000, // Duration in milliseconds
-      useNativeDriver: true, // Optimize animation
-    }).start(); // Start animation
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
   return (
     <ScrollView style={styles.container}>
+      {/* <Stack.Screen options={{ headerShown: false}} /> */}
       {/* <Stack.Screen options={{ headerTitle: "" }} /> */}
 
       {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', backgroundColor: '#eee' }}>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
-import { View, StyleSheet, Text } from 'react-native';
-import { MonoText } from '@/components/StyledText';
+import { Tabs, useRouter } from 'expo-router';
+import { View, StyleSheet, Pressable } from 'react-native';
+import { MonoText, PoppinsText } from '@/components/StyledText';
 
 import Colors from '@/constants/Colors';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
@@ -16,6 +16,11 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+  const router = useRouter();
+
+  const logout = () => {
+    router.push('/logout')
+  }
   return (
     <Tabs
       screenOptions={{
@@ -34,7 +39,12 @@ export default function TabLayout() {
               <MonoText>Portugal</MonoText>
               <Entypo name="chevron-small-down" size={24} color="black" />
             </View>
-          )
+          ),
+          headerRight: () => (
+            <Pressable onPress={logout} style={{paddingRight: 12}}>
+              <PoppinsText>Logout</PoppinsText>
+            </Pressable>
+          ),
         }}
       />
       <Tabs.Screen

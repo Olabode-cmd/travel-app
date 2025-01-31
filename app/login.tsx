@@ -1,8 +1,9 @@
-import { View, Pressable, SafeAreaView, StyleSheet, Alert, TextInput, Image } from "react-native";
+import { View, Pressable, SafeAreaView, StyleSheet, Alert, TextInput, Image, ActivityIndicator } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MonoText } from "@/components/StyledText";
 import Google from '../assets/images/google.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // API endpoint = https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/
 // email phone_number username password
@@ -10,41 +11,75 @@ import Google from '../assets/images/google.png';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
 
     const router = useRouter();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        
-        // Prepare the data to be sent to the server
-        const requestData = {
-            email,
-            password,
+    useEffect(() => {
+        const fetchToken = async () => {
+            const savedToken = await AsyncStorage.getItem('accessToken');
+            setToken(savedToken);
         };
 
-        // console.log('Data to be sent:', requestData);
+        fetchToken();
+    }, []);
 
-        // Dummy API URL
-        const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/login/';
+    useEffect(() => {
+        if (token) {
+            router.push('/home');
+        }
+    }, [token, router]);
+    
 
+    const handleLogin = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        if (!email || !password) {
+            Alert.alert('Error', 'Please fill in all fields');
+            return;
+        }
+        if (!email.includes('@')) {
+            Alert.alert('Error', 'Please enter a valid email address');
+            return;
+        }
+        if (password.length < 8) {
+            Alert.alert('Error', 'Password must be at least 8 characters long');
+            return;
+        }
+        
+        setLoading(true);
+        
+        // Prepare the data to be sent to the server
         try {
+            const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/login/';
+
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(requestData),
+                body: JSON.stringify({ email, password }),
             });
 
-            const responseData = await response.json();
-            console.log('Server Response:', responseData);
+            const data = await response.json();
+            console.log('Server Response:', data);
 
-            // Show success message
-            Alert.alert('Success', 'Logged in successfully!');
-            console.log('Success', 'Logged in successfully!');
+            if (response.ok) {
+                await AsyncStorage.setItem('accessToken', data.access);
+                Alert.alert('Success', 'Logged in successfully!');
+                console.log('Success', 'Logged in successfully!');
+                router.push('/home')
+                return { success: true, token: data.accessToken };
+            } else {
+                Alert.alert('Error', data.message || 'Login failed');
+                return { success: false, message: data.message || 'Login failed' };
+            }
         } catch (error) {
             console.error('Error during login:', error);
             Alert.alert('Error', 'Something went wrong. Please try again.');
+            return { success: false, message: 'An error occurred. Please try again.' };
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -92,7 +127,7 @@ export default function Login() {
                 <Pressable style={styles.button}
                  onPress={handleLogin}
                  >
-                    <MonoText style={styles.buttonText}>Login</MonoText>
+                    <MonoText style={styles.buttonText}>{loading ? <ActivityIndicator /> : "Login"}</MonoText>
                 </Pressable>
 
                 <View style={styles.moreContainer}>

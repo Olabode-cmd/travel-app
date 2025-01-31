@@ -3,6 +3,7 @@ import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import { MonoText } from "@/components/StyledText";
 import Google from '../assets/images/google.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -43,8 +44,11 @@ const SignUp = () => {
             console.log('Server Response:', responseData);
 
             if (responseData.status === 200) {
+                const data = responseData;
+                await AsyncStorage.setItem('accessToken', data.access);
                 Alert.alert('Registration successful')
                 console.log('Registration successful')
+                router.push('/home')
             }
         } catch (error) {
             console.error('Error during login:', error);

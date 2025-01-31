@@ -93,13 +93,13 @@ const ProductsPage: React.FC = () => {
             <Pressable onPress={consoleData}>
                 <Text>Console data</Text>
             </Pressable>
-            {/* <FlatList
+            <FlatList
                 data={products}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <ProductCard product={item} onAddToCart={handleAddToCart} />
                 )}
-            /> */}
+            />
 
             <View>
                 <View>
@@ -113,27 +113,27 @@ const ProductsPage: React.FC = () => {
 
                 <View>
                     <PoppinsText>Name</PoppinsText>
-                    <TextInput
+                    {/* <TextInput
                         value={price}
                         onChangeText={(text) => setPrice(text)}
                         inputMode="text"
-                    />
+                    /> */}
                 </View>
 
                 <View>
-                    <Picker
+                    {/* <Picker
                         selectedValue={selectedLanguage}
                         onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-                        // style={styles.picker}
+                        style={styles.picker}
                     >
                         
-                        {/* <Picker.Item label="JavaScript" value="javascript" />
+                        <Picker.Item label="JavaScript" value="javascript" />
                         <Picker.Item label="Python" value="python" />
                         <Picker.Item label="Java" value="java" />
                         <Picker.Item label="C++" value="cpp" />
                         <Picker.Item label="Ruby" value="ruby" />
-                        <Picker.Item label="Swift" value="swift" /> */}
-                    </Picker>
+                        <Picker.Item label="Swift" value="swift" />
+                    </Picker> */}
                 </View>
             </View>
         </View>
