@@ -134,7 +134,7 @@ function RootLayoutNav({ isAuthenticated }: RootLayoutNavProps): JSX.Element {
           <Stack options={{ headerShown: false}}>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="product/[id]" options={{ headerShown: false }} />
-            <Stack.Screen name="permissions/storage" options={{ headerShown: false }} />
+            <Stack.Screen name="permissions/imagepicker" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           </Stack>
         </>

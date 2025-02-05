@@ -15,7 +15,7 @@ const Storage = () => {
         setStorage(fileList.map(file => file.name));
     }
     return (
-        <View style={StyleSheet.container}>
+        <View style={styles.container}>
             <Text>Saved Files</Text>
 
             <FlatList
