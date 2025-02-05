@@ -25,38 +25,33 @@ function AntIcon(props: {
 export default function TabLayout() {
   const router = useRouter();
 
-  const logout = () => {
-    router.push('/logout')
-  }
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors.light.tint,
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false,
+        // headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
         name="default"
         options={{
           title: 'Home',
+          headerShown: true,
           tabBarIcon: ({ color }) => <AntIcon name="home" color={color} />,
           headerTitle: '',
           headerLeft:() => (
             <View style={styles.left}>
-              <PoppinsText style={{}}>Discover</PoppinsText>
+              <PoppinsText style={{fontSize: 22, fontWeight: 'bold'}}>Discover</PoppinsText>
             </View>
-          ),
-          headerRight: () => (
-            <Pressable onPress={logout} style={{paddingRight: 12}}>
-              <PoppinsText>Logout</PoppinsText>
-            </Pressable>
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="profile"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Profile',
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
 
@@ -64,7 +59,17 @@ export default function TabLayout() {
         name="products"
         options={{
           title: 'Products',
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerShown: true,
+          tabBarIcon: ({ color }) => <TabBarIcon name="gift" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="permissions"
+        options={{
+          title: 'Permissions',
+          headerShown: true,
+          tabBarIcon: ({ color }) => <TabBarIcon name="gift" color={color} />,
         }}
       />
 

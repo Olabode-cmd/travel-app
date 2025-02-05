@@ -1,4 +1,4 @@
-import { View, Pressable, SafeAreaView, StyleSheet, Alert, TextInput, Image, ActivityIndicator } from "react-native";
+import { View, Pressable, SafeAreaView, StyleSheet, Alert, TextInput, Image, ActivityIndicator, StatusBar } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useState, useEffect } from "react";
 import { MonoText } from "@/components/StyledText";
@@ -11,7 +11,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 // email phone_number username password
 
 export default function Login() {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [token, setToken] = useState<string | null>(null);
@@ -35,28 +35,22 @@ export default function Login() {
 
     useEffect(() => {
         if (token) {
-            router.push('/home');
+            router.push('/default');
         }
     }, [token, router]);
     
 
-    const handleLogin = async (e) => {
-        // const logout = async () => {
-        //     await AsyncStorage.removeItem('accessToken');
-        //     console.log('Logged out')
-        // }
-
-        // logout();
+    const handleLogin = async (e: { preventDefault: () => void; }) => {
 
         e.preventDefault();
-        if (!email || !password) {
+        if (!username || !password) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
-        if (!email.includes('@')) {
-            Alert.alert('Error', 'Please enter a valid email address');
-            return;
-        }
+        // if (!email.includes('@')) {
+        //     Alert.alert('Error', 'Please enter a valid email address');
+        //     return;
+        // }
         if (password.length < 8) {
             Alert.alert('Error', 'Password must be at least 8 characters long');
             return;
@@ -65,25 +59,25 @@ export default function Login() {
         setLoading(true);
         
         try {
-            const apiUrl = 'https://api.digitalfortressltd.com/user/login/';
+            const apiUrl = 'https://dummyjson.com/auth/login';
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, password }),
             });
 
             const data = await response.json();
             console.log('Server Response:', data);
 
             if (response.ok) {
-                await AsyncStorage.setItem('accessToken', data.access);
+                await AsyncStorage.setItem('accessToken', data.accessToken);
                 Alert.alert('Success', 'Logged in successfully!');
                 console.log('Success', 'Logged in successfully!');
-                router.push('/home')
-                return { success: true, token: data.access };
+                router.push('/default')
+                return { success: true, token: data.accessToken };
             } else {
                 Alert.alert('Error', data.message || 'Login failed');
                 return { success: false, message: data.message || 'Login failed' };
@@ -97,34 +91,34 @@ export default function Login() {
         }
     };
 
-    const login = async (e) => {
-        e.preventDefault();
+    // const login = async (e) => {
+    //     e.preventDefault();
 
-        try {
-            const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/login/';
+    //     try {
+    //         const apiUrl = 'https://inevitable-helaina-nilvfgfgfhujkiki-38773413.koyeb.app/user/login/';
 
-            const response = await fetch(apiUrl, {
-                method: "POST",
-                body: JSON.stringify({ email, password }),
-            })
+    //         const response = await fetch(apiUrl, {
+    //             method: "POST",
+    //             body: JSON.stringify({ email, password }),
+    //         })
 
-            const data = await response.json();
-            console.log('Server Response:', data);
+    //         const data = await response.json();
+    //         console.log('Server Response:', data);
 
-            if(response.ok) {
-                Alert.alert('Login successful')
-                router.push('/default')
-            }
-        } catch (error) {
-            // setError(error);
-            console.error('Error during login:', error);
-        } finally {
-            setLoading(false)
-        }
-    }
+    //         if(response.ok) {
+    //             Alert.alert('Login successful')
+    //             router.push('/default')
+    //         }
+    //     } catch (error) {
+    //         // setError(error);
+    //         console.error('Error during login:', error);
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }
 
     const goHome = () => {
-        router.push('/home');
+        router.push('/default');
     };
     const routeToSignup = () => {
         router.push('/signup');
@@ -132,6 +126,7 @@ export default function Login() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" backgroundColor="#fff" hidden={false} />
             <Stack.Screen options={{ headerShown: false }} />
             <MonoText style={styles.title}>Login page</MonoText>
 
@@ -144,13 +139,12 @@ export default function Login() {
 
             <View style={styles.loginBox}>
                 <View>
-                    <MonoText style={styles.label}>Enter your email</MonoText>
+                    <MonoText style={styles.label}>Enter your username</MonoText>
                     <TextInput
                         style={styles.input}
-                        keyboardType="email-address"
                         autoCapitalize="none"
-                        value={email}
-                        onChangeText={(text) => setEmail(text)}
+                        value={username}
+                        onChangeText={(text) => setUsername(text)}
                     />
                 </View>
 
