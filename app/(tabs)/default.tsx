@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TextInput, Image, TouchableOpacity,
 import { PoppinsText } from '@/components/StyledText';
 import { useRouter } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
+import ProductCard from '@/components/defaultcard';
 import { FadeView } from '@/animations/animated';
 
 interface Product {
@@ -20,32 +21,18 @@ const CategoryButton = ({ title }) => (
   </TouchableOpacity>
 );
 
-const ProductCard = ({ id, title, price, rating, image }) => {
-  const router = useRouter();
-
-  return (
-    <TouchableOpacity
-      style={styles.productCard}
-      onPress={() => {
-        router.push(`/product/${id}`);
-      }}
-    >
-      <Image source={{ uri: image }} style={styles.productImage} />
-      <View style={styles.productInfo}>
-        <PoppinsText style={styles.productTitle}>{title}</PoppinsText>
-        <View style={styles.ratingContainer}>
-          <PoppinsText style={styles.rating}>★{rating}</PoppinsText>
-          <PoppinsText style={styles.reviews}> • {Math.floor(Math.random() * 100)} reviews</PoppinsText>
-        </View>
-        <PoppinsText style={styles.price}>${price}</PoppinsText>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
 export default function Default() {
   const [products, setProducts] = useState<Product>([]);
   const [loading, setLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/search/${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   useEffect(() => {
           fetchProducts();
@@ -72,6 +59,10 @@ export default function Default() {
           style={styles.searchInput}
           placeholder="Search"
           placeholderTextColor="#999"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          onSubmitEditing={handleSearch}
+          returnKeyType="search"
         />
         <AntDesign
           name="search1"
@@ -112,9 +103,9 @@ export default function Default() {
         ))}
       </View>
 
-      <FadeView>
+      {/* <FadeView>
         <Text>This fades in!</Text>
-      </FadeView>
+      </FadeView> */}
     </ScrollView>
   );
 }
@@ -123,6 +114,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  productsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 15,
+    justifyContent: 'space-between',
   },
   searchContainer: {
     padding: 15,
@@ -184,56 +181,6 @@ const styles = StyleSheet.create({
   },
   categoryButtonText: {
     fontSize: 14,
-    color: '#333',
-  },
-  productsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    padding: 15,
-    justifyContent: 'space-between',
-  },
-  productCard: {
-    width: '48%',
-    backgroundColor: '#fff',
-    borderRadius: 15,
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  productImage: {
-    width: '100%',
-    height: 150,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-  },
-  productInfo: {
-    padding: 10,
-  },
-  productTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 5,
-  },
-  rating: {
-    color: '#FFD700',
-  },
-  reviews: {
-    color: '#666',
-    fontSize: 12,
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: 'bold',
     color: '#333',
   },
 });
